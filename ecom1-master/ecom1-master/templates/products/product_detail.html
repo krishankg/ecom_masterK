@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block title %}Product|Detail{% endblock %}
+{% block content %}
+<h1 class="text-center">Product Details</h1>
+ <div class="container">
+   <div class="row">
+     <div class="col-lg-6 col-sm-6 mx-auto">
+       <div class="card text-center">
+          <p class="card-title mx-left text-center"><strong>Product Name:</strong> {{ object.name }}</p>
+          <div class="container"><strong>Description:
+          <p class="card-text"></strong>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.<p></div>
+          <p><strong>Added into cart:</strong> {{ object.timestamp|timesince}} ago</p>
+          <p><strong>Rs.{{ object.price }}</strong></p>
+          {% if object.image %}
+          <img src="{{ object.image.url }}" alt="photo">
+          {% endif %}
+          <br/>
+          <!-- <button id="pr{{ object.id }}"class="btn btn-primary suman-cart">Add to Cart</button> -->
+      </div>
+      </div>
+
+      <div class="col-lg-6 col-sm-6">
+        <br>
+       {% include 'carts/update_cart.html' with product=object cart=cart%}
+     </div>
+</div>
+
+{% endblock %}

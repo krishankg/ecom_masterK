@@ -1,0 +1,46 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+<h1 class="text-center">Cart</h1>
+<div class="container">
+  {% if cart.products.exists %}
+      <table class="table cart-home">
+        <thead>
+          <tr>
+            <th scope="col">No. of Items</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Product Price</th>
+          </tr>
+        </thead>
+        <tbody class="cart-body">
+          <div class="cart-products">
+          {% for product in cart.products.all %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+            {% include 'carts/update_cart.html' with product=product cart=cart in_cart=True %}
+            </td>
+            <td>{{ product.price }}</td>
+          </tr>
+          {% endfor %}
+          </div>
+          <tr>
+            <td colspan="2"></td>
+            <td><b>Sub-Total  </b> Rs.<span class="span-subtotal"> {{ cart.subtotal }}</span></td>
+          </tr>
+          <tr>
+            <th colspan="2"></th>
+            <td><b>Total  </b> Rs.<span class="span-total"> {{ cart.total_price }}</span></td>
+          </tr>
+          <tr>
+            <th colspan="2"></th>
+            <td><a href="{% url 'carts:checkout'%}" class="btn btn-success">Checkout for Order</a></td>
+          </tr>
+        </tbody>
+      </table>
+      {% else %}
+      <p class="lead text-center">Cart is empty</p>
+      {% endif %}
+</div>
+{% endblock %}

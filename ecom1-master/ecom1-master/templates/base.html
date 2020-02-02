@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Favicons -->
+  {% comment %} {% load static %}
+ <link href="{% static 'img/favicon.png' %}" rel="icon">
+ <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon"> {% endcomment %}
+
+ {% comment %} <!-- Google Fonts -->
+ <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet">
+
+ <!-- Bootstrap CSS File -->
+ <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+ <!-- Libraries CSS Files -->
+ <link href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+ <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+ <link href="{% static 'lib/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+ <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+ <link href="{% static 'lib/magnific-popup/magnific-popup.css' %}" rel="stylesheet">
+ <link href="{% static 'lib/ionicons/css/ionicons.min.css' %}" rel="stylesheet"> {% endcomment %}
+
+ {% comment %} <!-- Main Stylesheet File -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet"> {% endcomment %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>{% block style %}{% endblock %}</style>
+  </head>
+  {% comment %} style="background-color:#D9ECFF; {% endcomment %}
+  {% comment %} <body style="background-color:#D9ECFF";> {% endcomment %}
+  <body>
+    {# navbar #}
+    {% include "navbar.html" %}
+    {% block content %}
+    {% endblock %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+{% comment %}
+<script src="{% static 'lib/jquery/jquery.min.js'%}"></script>
+  <script src="{% static 'lib/jquery/jquery-migrate.min.js'%}"></script>
+  <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{% static 'lib/easing/easing.min.js'%}"></script>
+  <script src="{% static 'lib/superfish/hoverIntent.js'%}"></script>
+  <script src="{% static 'lib/superfish/superfish.min.js'%}"></script>
+  <script src="{% static 'lib/wow/wow.min.js'%}"></script>
+  <script src="{% static 'lib/owlcarousel/owl.carousel.min.js'%}"></script>
+  <script src="{% static 'lib/magnific-popup/magnific-popup.min.js'%}"></script>
+  <script src="{% static 'lib/sticky/sticky.js'%}"></script>
+
+  <!-- Contact Form JavaScript File -->
+  <script src="{% static 'contactform/contactform.js'%}"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="{% static 'js/main.js'%}"></script> {% endcomment %}
+  {% block js %}
+  {% endblock %}
+
+<script type="text/javascript">
+$(document).ready(function(){
+  var productForm=$('.form-product-ajax')
+  productForm.submit(function(event){
+    event.preventDefault();
+    var thisForm=$(this)
+    var formData=thisForm.serialize()
+    var httpMethod=thisForm.attr('method')
+    var endUrl=thisForm.attr('action')
+    $.ajax({
+      data:formData,
+      url:endUrl,
+      type:httpMethod,
+      success:function(data)
+      {
+        var submitSpan=thisForm.find(".submit-span")
+        if(data.added)
+        {
+           console.log("count remove",data.cartItemCounts)
+           var cartCounts=$('.span-cart-count')
+        cartCounts.text(data.cartItemCounts)
+           submitSpan.html("<button type='submit' class='btn btn-danger'>Remove Cart</button>")
+        }
+        else{
+          submitSpan.html('<button type="submit" class="btn btn-success">add to cart</button>')
+          console.log("count add:",data.cartItemCounts)
+          var cartCounts=$('.span-cart-count')
+        cartCounts.text(data.cartItemCounts)
+        }
+        // var cartCounts=$('.span-cart-count')
+        // cartCounts.text(data.cartItemCounts)
+        var currentPath=window.location.href
+        if(currentPath.indexOf('cart')!=-1)
+        {
+          refreshCart()
+        }
+      },
+      error:function(errorData)
+      {
+        console.log('error')
+      }
+    })
+  })
+     function refreshCart()
+     {
+        console.log('Hello refresh cart')
+        var cartTable=$(".cart-table")
+        var cartBody=cartTable.find(".cart-body")
+        var productsRow=cartBody.find('.cart-products')
+        var currentLocation=window.location.href
+        var updateCartUrl='api/cart/';
+        var updateMethod="GET";
+        var data={};
+        $.ajax({
+                url:updateCartUrl,
+                method:updateMethod,
+                data:data,
+                success:function(data)
+                {
+                  console.log('sucess');
+                  if(data.proudcts.length>0)
+                  {
+                    productsRow.html("<tr><td colspan=3>Coming Soon</td></tr>")
+                    cartBody.find('.span-subtotal').text(data.subtotal);
+                    cartBody.find('.span-total').text(data.total);
+                  }
+                  else {
+                      window.location.href=currentLocation
+                  }
+                },
+                error:function(errorData)
+                {
+                  console.log('error');
+                }
+             })
+      }
+})
+</script>
+  </body>
+</html>

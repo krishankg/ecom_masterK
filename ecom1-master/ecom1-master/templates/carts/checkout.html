@@ -1,0 +1,97 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block title %}checkout{% endblock %}
+{% block content %}
+    {% if not object.shipping_address  %}
+      <div class="col col-sm-6 col-md-6 mx-auto card" >
+        <h3 class='text-center lead'>Shipping Address</h3>
+        <hr>
+        {% url 'checkout_address_create' as checkout_address_create %}
+       {% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='shipping'%}
+      </div>
+      {% elif not object.billing_address %}
+      <div class="col col-sm-6 col-md-6 mx-auto card" >
+        <h3 class='text-center lead'>Billing Address</h3>
+        <hr>
+        {% url 'checkout_address_create' as checkout_address_create %}
+       {% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='billing'%}
+      </div>
+      {% else %}
+<div class="row">
+        <div class="col col-md-6 col-lg-6 mx-auto ">
+               <h3 class="text-center"><strong>Final CheckOut for Order</strong></h3>
+               <div class="col col-md-6 col-lg-12 mx-auto">
+                 <hr>
+                 <p style="float:left"><strong>Product Name</strong></p>
+                 <p style="float:right;"><strong>Qunatity</strong></p>
+                 <br><br>
+                {% for pro in products.all %}
+                <p>{{ pro.name }}
+                <span style="float:right;"><strong>1</strong></span></p>
+                {% endfor %}
+               </div>
+                <div class="col col-md-6 col-lg-12 mx-auto">
+                  <hr>
+                   <table class="table table-borderless">
+                        <tbody>
+                          <tr>
+                            <td><strong>Order Id</strong></td>
+                            <td>{{ object.order_id }}</td>
+                         </tr>
+                        <tr>
+                            <td><strong>Cart Total</strong></td>
+                            <td> Rs. {{ object.cart.total_price }}</td>
+                        </tr>
+                        <tr>
+
+                            <td><strong>Shipping Total</strong></td>
+                            <td> Rs .{{ object.shipping_total }}</td>
+                        </tr>
+                        <tr>
+
+                            <td><h4><strong>Order Total<strong></h4></td>
+                            <td><h4><strong> Rs. {{ object.total }}</strong></h4></td>
+                        </tr>
+                          </tbody>
+                    </table>
+                 </div>
+                 </div>
+        </div>
+          <div class="col-lg-6 col-md-6 mx-auto">
+            <hr>
+           {% if object.shipping_address %}
+             <p><strong>Shipping Address:</strong></p>
+             <p>
+               {{ object.shipping_address.address_line_1 }}
+               <br>
+               <span>City - {{ object.shipping_address.city }}</span>
+               <br>
+               <span>State - {{ object.shipping_address.state |title }}</span>
+               <br>
+               <span>Pincode - {{ object.shipping_address.postal_code }}</span>
+             </p>
+             {% endif %}
+            </div>
+            <div class="col-lg-6 col-md-6 mx-auto">
+              <hr>
+             {% if object.billing_address %}
+             <div>
+               <p><strong>Billing Address:</strong></p>
+               <p>
+                 {{ object.billing_address.address_line_1 }}
+                 <br>
+                 <span>City - {{ object.billing_address.city }}</span>
+                 <br>
+                 <span>State - {{ object.billing_address.state |title }}</span>
+                 <br>
+                 <span>Pincode - {{ object.billing_address.postal_code }}</span>
+               </p>
+               {% endif %}
+             </div>
+          <form method="post">{% csrf_token %}
+            <button class="btn btn-success btn-block text-center" type="submit">CheckOut for Payment</button>
+          </form>
+        </div>
+      </br></br>
+     {% endif %}
+{% endblock %}

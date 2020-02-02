@@ -1,0 +1,14 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+
+{% block title %}Order | Success {% endblock %}
+{% block content %}
+
+<div class="container">
+	<div class="alert alert-success text-center" role="alert">
+  <h3>Your Order Successfully done,Thank you.</h3>
+</div>
+<h5><a href="{% url 'products:list'%}">Click here back to home page.</a></h5>
+</div>
+
+{% endblock %}

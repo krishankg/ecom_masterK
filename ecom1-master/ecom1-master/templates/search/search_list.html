@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Product | List {% endblock %}
+{% block content %}
+  {% if request.GET.q %}
+  <h1 class="text-center">Result for {{ request.GET.q}}</h1>
+  <hr>
+  <div class="container">
+     <div class="row">
+         {% for obj in objects %}
+       <div class="col col-4">
+         <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+           {% if obj.image %}
+             <a href="{% url 'products:detail' obj.slug %}"><img src="{{ obj.image.url }}" width="200px" height="200px"class="card-img-top" alt="photo"></a>
+           {% endif %}
+             <div class="card-body">
+               <h5 class="card-title">{{ obj.name }}</h5>
+               <p class="card-text">{{ obj.content }}</p>
+               <p class="card-title">Rs.{{ obj.price }}</p>
+             </div>
+          </div>
+         </div>
+         {% endfor %}
+       </div>
+   </div>
+   {% else %}
+   <p> Not found any product.</p>
+    {% endif %}
+ {% endblock %}

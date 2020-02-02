@@ -1,0 +1,73 @@
+{% load i18n %}
+{% load static inlinecss %}
+{% inlinecss "account/Css/Email-Styles.css" %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Registration confirmation email</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/EmailMessage">
+
+<table class="body-wrap" width="900">
+	<tr>
+		<td></td>
+		<td class="container" width="900">
+			<div class="content">
+				<table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction">
+					<tr>
+						<td class="content-wrap">
+							<meta itemprop="name" content="Confirm Email"/>
+							<table width="100%" cellpadding="0" cellspacing="0">
+								<tr>
+									<td class="content-block">
+										<center><strong style="color:black;font-size:20px;">Please activate your email for this account.<strong></center>
+									</td>
+								</tr>
+								<tr>
+									<td class="content-block">
+										<p><b>Hello,{{ user }}</b></p>
+										We may need to send you critical information about our service and it is important that we have an accurate email address.
+										<p>Your email address for this account is {{ email }}.</p>
+									</td>
+								</tr>
+								<tr>
+									<td class="content-block">
+										<center><a href="{{ path }}"class="btn btn-primary" itemprop="url">Confirm</a><center>
+									</td>
+								</tr>
+								<tr class="content-block">
+									Once your account activated,you can login !
+								</tr>
+								<br>
+								<tr>
+									<td class="content-block">
+									 <p><span><b>Thank you,</b></span><br>
+ 									 <span><b>EasyDealIndia.com</b></span><br>
+ 									 <span><b>Building No.63,Near Durgaganj Bazaar</b></span><br>
+ 									 <span><b>Pratapgarh,Uttar Pradesh</b><span><br></p>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<div class="footer">
+					<table width="100%">
+						<tr>
+
+						</tr>
+					</table>
+				</div></div>
+		</td>
+		<td></td>
+	</tr>
+</table>
+
+</body>
+</html>
+
+{% endinlinecss %}

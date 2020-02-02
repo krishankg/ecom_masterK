@@ -1,0 +1,12 @@
+{% load crispy_forms_tags %}
+<form  method="POST" action="{% if action_url %}{{ action_url }}{% endif %}" class="form my-lg-0">
+  {% csrf_token %}
+  <!-- {% if next_url %}
+  <input type="hidden" name="next" value="{{ next_url }}"/>
+  {% endif %} -->
+  {% if address_type %}
+  <input type="hidden" name="address_type" value="{{ address_type }}"/>
+  {{ form |crispy }}
+  {% endif %}
+  <button type='submit' class="btn btn-primary btn-block">Place for Order</button>
+</form>

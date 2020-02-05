@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block title %} Home | List{% endblock %}
+
+{% block content %}
+<center><h2>List of blogs</h2></center>
+<hr>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {% for data in objects %}
+        {% if data %}
+        <div class="post-preview">
+          <a href="{% url 'details' data.slug %}">
+            <h2 class="post-title">
+              {{ data.title }}
+            </h2>
+            {% if data.sub_title %}
+            <h3 class="post-subtitle">{{ data.sub_title }}</h3>
+          </a>
+          {% endif %}
+          <p class="post-meta">Posted by
+            <a href="">{{ data.author }}</a>
+            on {{ data.publish }}</p>
+        </div>
+        {% endif %}
+        <hr>
+     {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

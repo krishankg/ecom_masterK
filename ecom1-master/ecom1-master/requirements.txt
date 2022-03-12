@@ -19,7 +19,7 @@ importlib-metadata==0.23
 instamojo-wrapper==1.2.0
 kombu==4.6.6
 more-itertools==7.2.0
-Pillow==6.1.0
+Pillow==9.0.1
 psycopg2==2.8.4
 pynliner==0.8.0
 python-decouple==3.3
